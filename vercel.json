@@ -1,0 +1,19 @@
+{
+  "buildCommand": "pnpm build",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "regions": ["hkg1"],
+  "env": {
+    "DEEPSEEK_API_KEY": {
+      "description": "DeepSeek API Key for AI chat functionality",
+      "value": null
+    }
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_SITE_URL": {
+        "value": "$VERCEL_URL"
+      }
+    }
+  }
+}
