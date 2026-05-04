@@ -156,7 +156,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function getIntroSystemPrompt(stage: number | string): string {
+function getIntroSystemPrompt(stage: number | string | null): string {
   return `你是「可能人生」的人生设计教练，一位充满智慧与温暖的长者。
 你的风格：温暖而有洞察力，像一位值得信赖的老朋友。
 语言富有诗意但不做作，善于提问而非直接给答案。
@@ -164,13 +164,13 @@ function getIntroSystemPrompt(stage: number | string): string {
 当前环节：${getStageName(stage)} 引导介绍`;
 }
 
-function getQuestionSystemPrompt(stage: number | string, step: number): string {
+function getQuestionSystemPrompt(stage: number | string | null, step: number): string {
   return `你是「可能人生」的人生设计教练。
 当前环节：${getStageName(stage)} - 第 ${step + 1} 个问题
 严格规则：每次只问一个问题，不要连续追问。等待用户回答后再继续。`;
 }
 
-function getSummarizeSystemPrompt(stage: number | string): string {
+function getSummarizeSystemPrompt(stage: number | string | null): string {
   return `你是「可能人生」的人生设计教练，擅长提炼洞察和总结要点。
 你的总结应该：
 - 温暖而有洞察力
@@ -242,7 +242,7 @@ function getAdviceSystemPrompt(): string {
 - 简洁有力`;
 }
 
-function getStageName(stage: number | string): string {
+function getStageName(stage: number | string | null): string {
   const names: Record<string, string> = {
     '1': '灵魂快照',
     '2': '反愿景',
@@ -252,7 +252,7 @@ function getStageName(stage: number | string): string {
   return names[String(stage)] || '未知阶段';
 }
 
-function getIntroPrompt(stage: number | string): string {
+function getIntroPrompt(stage: number | string | null): string {
   const prompts: Record<string, string> = {
     '1': sessionPrompts.stage1Intro,
     '2': sessionPrompts.stage2Intro,
@@ -262,11 +262,11 @@ function getIntroPrompt(stage: number | string): string {
   return prompts[String(stage)] || '欢迎来到可能人生。';
 }
 
-function getQuestionPrompt(stage: number | string, step: number): string {
+function getQuestionPrompt(stage: number | string | null, step: number): string {
   return `请继续第 ${step + 1} 个问题。`;
 }
 
-function getSummarizePrompt(stage: number | string, userData: any): string {
+function getSummarizePrompt(stage: number | string | null, userData: any): string {
   if (stage === 1) {
     const { answers } = userData;
     return formatPrompt(sessionPrompts.stage1Summarize, {
@@ -311,7 +311,7 @@ function getGeneratePrompt(userData: any): string {
   });
 }
 
-function getDialoguePrompt(stage: number | string, messages: any[], userData: any): string {
+function getDialoguePrompt(stage: number | string | null, messages: any[], userData: any): string {
   const { integratedPlan } = userData;
 
   // Check for danger signals
